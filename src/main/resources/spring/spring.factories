@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+lc.cy.cache.config.CacheRedisCaffeineAutoConfig
