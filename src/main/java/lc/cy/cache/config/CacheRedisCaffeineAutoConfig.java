@@ -26,7 +26,7 @@ public class CacheRedisCaffeineAutoConfig {
     private RedisTemplate<Object, Object> redisTemplate;
 
     public CacheRedisCaffeineAutoConfig(CacheRedisCaffeineProperties cacheRedisCaffeineProperties, RedisTemplate<Object, Object> redisTemplate) {
-        if(redisTemplate == null) {
+        if (redisTemplate == null) {
             throw new IllegalArgumentException("RedisTemplate is not exists.");
         }
         this.cacheRedisCaffeineProperties = cacheRedisCaffeineProperties;
@@ -47,11 +47,6 @@ public class CacheRedisCaffeineAutoConfig {
         redisMessageListenerContainer.addMessageListener(cacheMessageListener,
                 new ChannelTopic(cacheRedisCaffeineProperties.getRedis().getTopic()));
         return redisMessageListenerContainer;
-    }
-
-    @Bean
-    public RedisCaffeineInvalidator redisCaffeineInvalidator(RedisCaffeineCacheManager redisCaffeineCacheManager) {
-        return new RedisCaffeineInvalidator(redisCaffeineCacheManager);
     }
 
     @Bean

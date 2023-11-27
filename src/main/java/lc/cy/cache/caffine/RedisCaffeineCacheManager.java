@@ -65,7 +65,7 @@ public class RedisCaffeineCacheManager implements CacheManager {
     public com.github.benmanes.caffeine.cache.Cache<Object, Object> caffeineCache(String name) {
         Map<String, CacheRedisCaffeineProperties.Caffeine> caffeineMap = cacheRedisCaffeineProperties.getCaffeine();
         CacheRedisCaffeineProperties.Caffeine caffeineConfig = caffeineMap.get(name);
-        if(caffeineConfig == null) {
+        if (caffeineConfig == null) {
             caffeineConfig = new CacheRedisCaffeineProperties.Caffeine();
         }
         Caffeine<Object, Object> cacheBuilder = Caffeine.newBuilder();

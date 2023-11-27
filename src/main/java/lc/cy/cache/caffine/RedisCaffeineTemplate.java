@@ -16,7 +16,6 @@ public class RedisCaffeineTemplate {
     }
 
     /**
-     *
      * @param prefix
      */
     public void clearRedisKeys(String cacheName, String prefix) {
@@ -26,6 +25,7 @@ public class RedisCaffeineTemplate {
 
     /**
      * 清除caffeine缓存
+     *
      * @param cacheName
      */
     public void clearCaffeine(String cacheName) {
@@ -34,6 +34,7 @@ public class RedisCaffeineTemplate {
 
     /**
      * 失效缓存
+     *
      * @param cacheName
      * @param key
      */
@@ -43,6 +44,7 @@ public class RedisCaffeineTemplate {
 
     /**
      * 存入缓存
+     *
      * @param cacheName
      * @param key
      * @param value

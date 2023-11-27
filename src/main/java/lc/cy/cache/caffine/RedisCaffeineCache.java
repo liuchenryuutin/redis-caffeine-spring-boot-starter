@@ -1,6 +1,5 @@
 package lc.cy.cache.caffine;
 
-
 import com.github.benmanes.caffeine.cache.Cache;
 import lc.cy.cache.config.CacheRedisCaffeineProperties;
 import lc.cy.util.JsonUtil;
@@ -53,7 +52,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
         this.cachePrefix = cacheRedisCaffeineProperties.getCachePrefix();
         this.redisExpires = cacheRedisCaffeineProperties.getRedis().getDefaultExpires();
         Map<String, Long> expires = cacheRedisCaffeineProperties.getRedis().getExpires();
-        if(expires != null && !expires.isEmpty() && expires.containsKey(name)) {
+        if (expires != null && !expires.isEmpty() && expires.containsKey(name)) {
             this.redisExpires = expires.get(name).longValue();
         }
         this.topic = cacheRedisCaffeineProperties.getRedis().getTopic();
@@ -178,9 +177,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     }
 
     /**
+     * @param message
      * @description 缓存变更时通知其他节点清理本地缓存
      * @version 1.0.0
-     * @param message
      */
     private void push(String message) {
         redisTemplate.convertAndSend(topic, message);
@@ -190,7 +189,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     public void clear() {
         // 先清除redis中缓存数据，然后清除caffeine中的缓存，避免短时间内如果先清除caffeine缓存后其他请求会再从redis里加载到caffeine中
         Set<Object> keys = redisTemplate.keys(this.name.concat(":*"));
-        if(keys != null && !keys.isEmpty()) {
+        if (keys != null && !keys.isEmpty()) {
             logger.info("clear redis cache, the keys is:{}", keys.stream().map(x -> x.toString()).collect(Collectors.joining(",")));
             redisTemplate.delete(keys);
         }
@@ -201,9 +200,9 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     }
 
     /**
+     * @param key
      * @description 清理本地缓存
      * @version 1.0.0
-     * @param key
      */
     public void clearLocal(Object key) {
         logger.info("clear local cache, the key is : {}", key);
@@ -224,6 +223,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 
     /**
      * 清除redis缓存
+     *
      * @param prefix
      */
     public void clearRedis(String prefix) {
