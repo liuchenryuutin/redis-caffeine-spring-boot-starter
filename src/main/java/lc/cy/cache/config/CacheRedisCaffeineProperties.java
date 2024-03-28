@@ -98,9 +98,9 @@ public class CacheRedisCaffeineProperties {
     public static class Redis {
 
         /**
-         * 全局过期时间，单位毫秒，默认60s
+         * 全局过期时间，单位毫秒，默认600s
          */
-        private long defaultExpires = 60000;
+        private long defaultExpires = 600000;
 
         /**
          * 每个cacheName的过期时间，单位毫秒，优先级比defaultExpiration高
@@ -143,12 +143,12 @@ public class CacheRedisCaffeineProperties {
         /**
          * 访问后过期时间，单位毫秒
          */
-        private long expireAfterAccess = 60000;
+        private long expireAfterAccess = 300000;
 
         /**
          * 写入后过期时间，单位毫秒
          */
-        private long expireAfterWrite = 60000;
+        private long expireAfterWrite = 300000;
 
         /**
          * 写入后刷新时间，单位毫秒

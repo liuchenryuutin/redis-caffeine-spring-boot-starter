@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StringUtils;
 
 public class CaffineChangeMessageListener implements MessageListener {
 
@@ -26,11 +27,16 @@ public class CaffineChangeMessageListener implements MessageListener {
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        String cachevalue = (String) redisTemplate.getValueSerializer().deserialize(message.getBody());
-        logger.info(cachevalue);
-        CacheMessage cacheMessage = JsonUtil.fromJson(cachevalue, CacheMessage.class);
+        Object msg = redisTemplate.getValueSerializer().deserialize(message.getBody());
+        if(msg == null) {
+            return;
+        }
+        CacheMessage cacheMessage = JsonUtil.fromJson(msg.toString(), CacheMessage.class);
         logger.debug("recevice a redis topic message, clear local cache, the cacheName is {}, the key is {}",
                 cacheMessage.getCacheName(), cacheMessage.getKey());
+        if(cacheMessage == null) {
+            return;
+        }
         redisCaffeineCacheManager.clearLocal(cacheMessage.getCacheName(), cacheMessage.getKey());
     }
 

@@ -75,9 +75,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
             return (T) value;
         }
 
-        ReentrantLock lock = new ReentrantLock();
         try {
-            lock.lock();
             value = lookup(key);
             if (value != null) {
                 return (T) value;
@@ -88,8 +86,6 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
             return (T) value;
         } catch (Exception e) {
             throw new ValueRetrievalException(key, valueLoader, e.getCause());
-        } finally {
-            lock.unlock();
         }
     }
 
@@ -207,7 +203,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     public void clearLocal(Object key) {
         logger.info("clear local cache, the key is : {}", key);
         if (key == null) {
-            clearLocal();
+            clearAllLocal();
         } else {
             caffeineCache.invalidate(key);
         }
@@ -216,7 +212,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
     /**
      * 清除本地所有缓存
      */
-    public void clearLocal() {
+    public void clearAllLocal() {
         logger.info("clear local all cache");
         caffeineCache.invalidateAll();
     }

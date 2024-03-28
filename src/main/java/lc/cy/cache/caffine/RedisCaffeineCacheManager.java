@@ -17,6 +17,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.connection.RedisClusterConnection;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,6 +49,9 @@ public class RedisCaffeineCacheManager implements CacheManager {
 
     @Override
     public Cache getCache(String name) {
+        if(!StringUtils.isEmpty(name)) {
+            return null;
+        }
         Cache cache = cacheMap.get(name);
         if (cache != null) {
             return cache;
@@ -93,6 +97,9 @@ public class RedisCaffeineCacheManager implements CacheManager {
     }
 
     public void clearLocal(String cacheName, Object key) {
+        if(StringUtils.isEmpty(cacheName)) {
+            return;
+        }
         Cache cache = cacheMap.get(cacheName);
         if (cache == null) {
             return;
@@ -143,7 +150,7 @@ public class RedisCaffeineCacheManager implements CacheManager {
             return;
         }
         RedisCaffeineCache redisCaffeineCache = (RedisCaffeineCache) cache;
-        redisCaffeineCache.clearLocal();
+        redisCaffeineCache.clearAllLocal();
     }
 
 }
